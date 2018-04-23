@@ -20,10 +20,10 @@
  */
 
 void testListaOrdenada() {
-    ListaOrdenada listaOrdenada; // debe construir una lista vacía
+    ListaOrdenada listaOrdenada; // debe construir una lista vacÃ­a
     string rsl = listaOrdenada.toString();
     if (rsl != "{}") {
-        std::cout << "Falló el constructor estándar" << std::endl;
+        std::cout << "FallÃ³ el constructor estÃ¡ndar" << std::endl;
     }
 }
 
@@ -32,28 +32,28 @@ void testListaOrdenada2() {
     ListaOrdenada listaOrdenada(orig);
     string rsl = listaOrdenada.toString();
     if (rsl != "{}") {
-        std::cout << "Falló el constructor de copias al copiar {}" << std::endl;
+        std::cout << "FallÃ³ el constructor de copias al copiar {}" << std::endl;
     }
     
     orig.agregar(1);
     ListaOrdenada listaOrdenada1(orig);
     rsl = listaOrdenada1.toString();
     if (rsl != "{1}") {
-        std::cout << "Falló el constructor de copias al copiar {1}" << std::endl;
+        std::cout << "FallÃ³ el constructor de copias al copiar {1}" << std::endl;
     }
     
     orig.agregar(2);
     ListaOrdenada listaOrdenada2(orig);
     rsl = listaOrdenada2.toString();
     if (rsl != "{1,2}") {
-        std::cout << "Falló el constructor de copias al copiar {1,2}" << std::endl;
+        std::cout << "FallÃ³ el constructor de copias al copiar {1,2}" << std::endl;
     } 
 
     orig.agregar(3);
     ListaOrdenada listaOrdenada3(orig);
     rsl = listaOrdenada3.toString();
     if (rsl != "{1,2,3}") {
-        std::cout << "Falló el constructor de copias al copiar {1,2,3}" << std::endl;
+        std::cout << "FallÃ³ el constructor de copias al copiar {1,2,3}" << std::endl;
     }     
 }
 
@@ -62,25 +62,25 @@ void testAgregar() {
     listaOrdenada.agregar(3);
     string rsl = listaOrdenada.toString();
     if (rsl != "{3}") {
-        std::cout << "Falló al agregar 3 sobre {}" << std::endl;
+        std::cout << "FallÃ³ al agregar 3 sobre {}" << std::endl;
     }
     
     listaOrdenada.agregar(7);
     rsl = listaOrdenada.toString();
     if (rsl != "{3,7}") {
-        std::cout << "Falló al agregar 7 sobre {3}" << std::endl;
+        std::cout << "FallÃ³ al agregar 7 sobre {3}" << std::endl;
     }
     
     listaOrdenada.agregar(1);
     rsl = listaOrdenada.toString();
     if (rsl != "{1,3,7}") {
-        std::cout << "Falló al agregar 1 sobre {3,7}" << std::endl;
+        std::cout << "FallÃ³ al agregar 1 sobre {3,7}" << std::endl;
     }   
     
     listaOrdenada.agregar(5);
     rsl = listaOrdenada.toString();
     if (rsl != "{1,3,5,7}") {
-        std::cout << "Falló al agregar 5 sobre {1,3,7}" << std::endl;
+        std::cout << "FallÃ³ al agregar 5 sobre {1,3,7}" << std::endl;
     }    
 }
 
@@ -89,29 +89,29 @@ void testBuscar() {
     
     bool rsl = listaOrdenada.buscar(1);
     if (rsl) {
-        std::cout << "buscar(1) falló sobre {}" << std::endl;
+        std::cout << "buscar(1) fallÃ³ sobre {}" << std::endl;
     }
     listaOrdenada.agregar(5);
     rsl = listaOrdenada.buscar(5);
     if (!rsl) {
-        std::cout << "buscar(5) falló sobre {5}" << std::endl;
+        std::cout << "buscar(5) fallÃ³ sobre {5}" << std::endl;
     }    
     
     listaOrdenada.agregar(11);
     rsl = listaOrdenada.buscar(11);
     if (!rsl) {
-        std::cout << "buscar(11) falló sobre {5,11}" << std::endl;
+        std::cout << "buscar(11) fallÃ³ sobre {5,11}" << std::endl;
     }
     
     listaOrdenada.agregar(8);
     rsl = listaOrdenada.buscar(8);
     if (!rsl) {
-        std::cout << "buscar(8) falló sobre {5,8,11}" << std::endl;
+        std::cout << "buscar(8) fallÃ³ sobre {5,8,11}" << std::endl;
     }
     
     rsl = listaOrdenada.buscar(9);
     if (rsl) {
-        std::cout << "buscar(9) falló sobre {5,8,11}" << std::endl;
+        std::cout << "buscar(9) fallÃ³ sobre {5,8,11}" << std::endl;
     }    
 }
 
@@ -119,20 +119,20 @@ void testAdyacencias() {
     ListaOrdenada listaOrdenada;
     int* rsl = listaOrdenada.adyacencias();
     if (rsl != nullptr) {
-        std::cout << "Falló adyacencias() sobre {}" << std::endl;
+        std::cout << "FallÃ³ adyacencias() sobre {}" << std::endl;
     }
     
     listaOrdenada.agregar(1);
     rsl = listaOrdenada.adyacencias();
     if (rsl[0] != 1)  {
-        std::cout << "Falló adyacencias() sobre {1}" << std::endl;
+        std::cout << "FallÃ³ adyacencias() sobre {1}" << std::endl;
     }
     
     listaOrdenada.agregar(5);
     listaOrdenada.agregar(11);
     rsl = listaOrdenada.adyacencias();
     if ((rsl[0] != 1)||(rsl[1] != 5)||(rsl[2] != 11))  {
-        std::cout << "Falló adyacencias() sobre {1,5,11}" << std::endl;
+        std::cout << "FallÃ³ adyacencias() sobre {1,5,11}" << std::endl;
     }
 }
 
@@ -140,20 +140,20 @@ void testCantidadAdy() {
     ListaOrdenada listaOrdenada;
     int rsl = listaOrdenada.cantidadAdy();
     if (rsl != 0) {
-        std::cout << "Falló cantidadAdy() con {}" << std::endl;
+        std::cout << "FallÃ³ cantidadAdy() con {}" << std::endl;
     }
     
     listaOrdenada.agregar(1);
     rsl = listaOrdenada.cantidadAdy();
     if (rsl != 1) {
-        std::cout << "Falló cantidadAdy() con {1}" << std::endl;
+        std::cout << "FallÃ³ cantidadAdy() con {1}" << std::endl;
     }
     
     listaOrdenada.agregar(5);
     listaOrdenada.agregar(11);
     rsl = listaOrdenada.cantidadAdy();
     if (rsl != 3) {
-        std::cout << "Falló cantidadAdy() con {1,5,11}" << std::endl;
+        std::cout << "FallÃ³ cantidadAdy() con {1,5,11}" << std::endl;
     }    
 }
 

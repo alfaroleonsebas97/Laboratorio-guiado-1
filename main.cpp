@@ -29,4 +29,3 @@ int main(int argc, char** argv) {
     laberinto.obtIdVrtAdys(0, adyacencias);
     return 0;
 }
-
