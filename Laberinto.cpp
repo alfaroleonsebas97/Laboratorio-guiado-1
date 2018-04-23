@@ -38,7 +38,7 @@ int Laberinto::obtIdVrtInicial() const {
 int Laberinto::obtIdVrtFinal() const {
 }
 
-void Laberinto::obtIdVrtAdys(int idVrt, int* rsp) const {
+void Laberinto::obtIdVrtAdys(int idVrt, int*& rsp) const {
 }
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
@@ -53,10 +53,10 @@ int Laberinto::obtTotAdy() const {
 int Laberinto::obtTotVrt() const {
 }
 
-int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int* camino) const {
+int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
 }
 
-int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int* camino) const {
+int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
 }
 
 double Laberinto::sumaTotalFerormona() const {

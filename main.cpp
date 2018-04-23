@@ -21,11 +21,11 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    ifstream archivoEntrada;
+    /*ifstream archivoEntrada;
     Laberinto laberinto(archivoEntrada);
     Simulador simulador(laberinto);
     int cntAdys = laberinto.obtCntAdy(0);
     int adyacencias[cntAdys];
-    laberinto.obtIdVrtAdys(0, adyacencias);
+    laberinto.obtIdVrtAdys(0, adyacencias);*/
     return 0;
 }
