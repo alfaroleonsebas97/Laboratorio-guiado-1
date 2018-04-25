@@ -1,4 +1,1 @@
-50000 con diferencia de -15.
-guardar promedio como un double.
-cambiar nombres de archivos.
 se pasa por referencia: caminomascorto, caminoencontrado, obtIdVrtAdys.
