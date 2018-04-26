@@ -14,6 +14,12 @@
 #include "Laberinto.h"
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
+    arregloVrts = new Vertice[cantidadVrts];
+    for( int i = 0; i < cantidadVrts; i++ ){
+        arregloVrts[i] = Vertice;
+    }
+    //cout << arregloVrts[0,1,2,...,cantidadVrts-1]; TO_DO: En el arreglo hay basura, debe llenarlo ocn gente apliacando lo de probabilidad.
+    //arregloAdys = new int[cantidadVrts * (cantidadVrts + 1) / 2];//TO_DO: repensarlo o preguntarlo.
 }
 
 Laberinto::Laberinto(ifstream& archivo){

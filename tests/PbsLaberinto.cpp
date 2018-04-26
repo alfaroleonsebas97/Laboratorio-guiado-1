@@ -83,6 +83,7 @@ void testLaberinto2() {
     } else {
         cout << "No se pudo abrir el archivo de entrada" << endl;
     }
+    
     ifstream archivoM("laberintom.txt");
     if (archivoM.is_open()){
         int cantidadDeVerticesEnElArchivo;
@@ -120,10 +121,22 @@ void testLaberinto2() {
 }
 
 void testLaberinto3() {
-    //const Laberinto& orig;
-    //Laberinto laberinto(orig);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=error message sample" << std::endl;
+    Laberinto laberintoOriginal( 50, 0.70 );
+    Laberinto laberintoCopia( laberintoOriginal );
+    int cantidadDeVertices;
+    cantidadDeVertices = laberintoCopia.obtTotVrt();
+    if ( cantidadDeVertices != 50 ) {
+        std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=la cantidad de vertices no coinciden" << std::endl;
+    } else {
+        int cantidadDeAdyEnOriginal;
+        int cantidadDeAdyEnCopia;
+        for ( int i = 0; i < 50; i++ ){
+            cantidadDeAdyEnOriginal = laberintoOriginal.obtCntAdy(i);
+            cantidadDeAdyEnCopia = laberintoCopia.obtCntAdy(i);
+            if ( cantidadDeAdyEnOriginal != cantidadDeAdyEnCopia ){
+                std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=la cantidad de adyacencias no coinciden" << std::endl;
+            }
+        }
     }
 }
 
@@ -295,11 +308,11 @@ int main(int argc, char** argv) {
     testLaberinto2();
     std::cout << "%TEST_FINISHED% time=0 testLaberinto2 (Laberinto)" << std::endl;
 
-    /*std::cout << "%TEST_STARTED% testLaberinto3 (Laberinto)" << std::endl;
+    std::cout << "%TEST_STARTED% testLaberinto3 (Laberinto)" << std::endl;
     testLaberinto3();
     std::cout << "%TEST_FINISHED% time=0 testLaberinto3 (Laberinto)" << std::endl;
 
-    std::cout << "%TEST_STARTED% testXstVrt (Laberinto)" << std::endl;
+    /*std::cout << "%TEST_STARTED% testXstVrt (Laberinto)" << std::endl;
     testXstVrt();
     std::cout << "%TEST_FINISHED% time=0 testXstVrt (Laberinto)" << std::endl;
 
