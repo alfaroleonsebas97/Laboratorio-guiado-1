@@ -1,1 +1,3 @@
 se pasa por referencia: caminomascorto, caminoencontrado, obtIdVrtAdys.
+considerar 4 escenarios: la hormiga se encicló, llegó a callejón sin salida, caundo llegó a la comida, cuando llegó al nido. retroceder campos al azar.
+el rango es (+/-)15 primer constructor.

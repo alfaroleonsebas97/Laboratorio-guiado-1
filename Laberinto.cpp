@@ -12,17 +12,37 @@
  */
 
 #include "Laberinto.h"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>
+#include <cstdlib>
+#include <fstream>
+#include <string>
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     arregloVrts = new Vertice[cantidadVrts];
+    arregloAdys = new Adyacencia[cantidadVrts * (cantidadVrts + 1) / 2];
+    double numeroAleatorio;
+    srand (time(NULL));
     for( int i = 0; i < cantidadVrts; i++ ){
-        arregloVrts[i] = Vertice;
+        for(int j=i+1; j < cantidadVrts; j++){
+            numeroAleatorio = (rand() % 1000 + 1) / 1000.0;
+            if(numeroAleatorio <= probabilidadAdy){
+                arregloVrts[i].lstAdy.agregar(j);
+                arregloVrts[j].lstAdy.agregar(i);
+            } 
+        } 
     }
-    //cout << arregloVrts[0,1,2,...,cantidadVrts-1]; TO_DO: En el arreglo hay basura, debe llenarlo ocn gente apliacando lo de probabilidad.
-    //arregloAdys = new int[cantidadVrts * (cantidadVrts + 1) / 2];//TO_DO: repensarlo o preguntarlo.
 }
 
 Laberinto::Laberinto(ifstream& archivo){
+    if (archivo.is_open()){
+        string hileraActual;
+         while(getline (archivo,hileraActual)){
+        arregloVrts = new Vertice[4];//CÓMO SABER EL TAMAÑO DEL ARREGLO DE VERTICES?
+        }
+        
+    }
+
 }
 
 Laberinto::Laberinto(const Laberinto& orig){

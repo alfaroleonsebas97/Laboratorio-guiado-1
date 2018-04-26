@@ -27,5 +27,6 @@ int main(int argc, char** argv) {
     int cntAdys = laberinto.obtCntAdy(0);
     int adyacencias[cntAdys];
     laberinto.obtIdVrtAdys(0, adyacencias);*/
+    Laberinto laberinto(50,0.7);
     return 0;
 }

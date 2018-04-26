@@ -25,8 +25,8 @@
 
 void testLaberinto() {
     int cantidadVrts = 50;
-    double probabilidadAdy = (double) rand() / RAND_MAX;
-    //DUDA: ¿ES EL RANGO +/- 0.15?
+    double probabilidadAdy = 0.7;
+    //EL RANGO ES (+/-) 15.
     probabilidadAdy = 0.16 + probabilidadAdy * (0.68); // MIN + P*(MAX-MIN):: MIN = 0.16,  MAX = 0.84
     Laberinto laberinto(cantidadVrts, probabilidadAdy);
     int totVrt = laberinto.obtTotVrt();
