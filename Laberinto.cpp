@@ -35,14 +35,30 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
 }
 
 Laberinto::Laberinto(ifstream& archivo){
-    if (archivo.is_open()){
+    if ( archivo.is_open() ){
         string hileraActual;
-         while(getline (archivo,hileraActual)){
-        arregloVrts = new Vertice[4];//CÓMO SABER EL TAMAÑO DEL ARREGLO DE VERTICES?
+        int numeroDeVertices;
+        getline (archivo,hileraActual);
+        numeroDeVertices = stoi(hileraActual);
+        arregloVrts = new Vertice[numeroDeVertices];
+        int i;
+        int numeroDeAdyacencia;
+        string hileraTemporal;
+        while ( getline (archivo,hileraActual) ){
+            i = 0;
+            while( hileraActual[i] != '\r'){
+                if(hileraActual[i] != ' '){
+                    hileraTemporal += hileraActual[i];
+                }else{
+                    numeroDeAdyacencia = stoi(hileraTemporal);
+                    hileraTemporal = "";
+                    arregloVrts[i].lstAdy.agregar(numeroDeAdyacencia);
+                }
+                i++;
+            }
         }
-        
+        archivo.close();
     }
-
 }
 
 Laberinto::Laberinto(const Laberinto& orig){
