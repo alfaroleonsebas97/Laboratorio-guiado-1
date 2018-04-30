@@ -128,7 +128,7 @@ private:
 
     // REQ: (0 <= f < cntVrts) && (0 <= c < cntVrts)
     // EFE: retorna el índice de la adyacencia de [f,c]
-    int obtIndiceAdy(int f, int c) const;
+    int obtIndiceAdy(int f, int c) const; //DUDA: PORQUÉ ESTÁ ESTO ACÁ.
     
     struct Vertice {
         ListaOrdenada lstAdy;
@@ -138,7 +138,7 @@ private:
     int cntVrts; // cantidad de vértices
     int idVrtInicial; // id vértice inicial
     int idVrtFinal; // id vértice final
-
+    
     Vertice* arregloVrts; // arreglo de vértices de memoria asignada dinámicamente == cntVrts
     Adyacencia* arregloAdys; // arreglo de adyacencias de memoria asignada dinámicamente == cntVrts * (cntVrts + 1) / 2
 };

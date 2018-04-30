@@ -19,12 +19,15 @@
 #include <string>
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
-    arregloVrts = new Vertice[cantidadVrts];
-    arregloAdys = new Adyacencia[cantidadVrts * (cantidadVrts + 1) / 2];
-    double numeroAleatorio;
+    cntVrts = cantidadVrts;
+    idVrtInicial = -1;
+    idVrtFinal = -1;
+    arregloVrts = new Vertice[cntVrts];
+    arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
+    double numeroAleatorio = 0.0;
     srand (time(NULL));
-    for( int i = 0; i < cantidadVrts; i++ ){
-        for(int j=i+1; j < cantidadVrts; j++){
+    for( int i = 0; i < cntVrts; i++ ){
+        for(int j=i+1; j < cntVrts; j++){
             numeroAleatorio = (rand() % 1000 + 1) / 1000.0;
             if(numeroAleatorio <= probabilidadAdy){
                 arregloVrts[i].lstAdy.agregar(j);
@@ -35,19 +38,21 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
 }
 
 Laberinto::Laberinto(ifstream& archivo){
+    
     if ( archivo.is_open() ){
-        string hileraActual;
-        int numeroDeVertices;
+        idVrtInicial = -1;
+        idVrtFinal = -1;
+        string hileraActual ;
         getline (archivo,hileraActual);
-        numeroDeVertices = stoi(hileraActual);
-        arregloVrts = new Vertice[numeroDeVertices];
-        int i;
+        cntVrts = stoi(hileraActual);
+        arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
+        arregloVrts = new Vertice[cntVrts];
         int numeroDeAdyacencia;
         string hileraTemporal;
         while ( getline (archivo,hileraActual) ){
-            i = 0;
+            int i = 0;
             while( hileraActual[i] != '\r'){
-                if(hileraActual[i] != ' '){
+                if(hileraActual[i] != ' '){ //separados por comas?
                     hileraTemporal += hileraActual[i];
                 }else{
                     numeroDeAdyacencia = stoi(hileraTemporal);
@@ -58,43 +63,72 @@ Laberinto::Laberinto(ifstream& archivo){
             }
         }
         archivo.close();
+    } else {
+        idVrtInicial = -1;
+        idVrtFinal = -1;
+        cntVrts = -1;
+        arregloAdys = NULL;
+        arregloVrts = NULL;
     }
 }
 
 Laberinto::Laberinto(const Laberinto& orig){
+    arregloVrts  = new Vertice[50]; //FALTA AVERIGUAR EL TAMAÑO DEL LABERINTO ORIG.
+    for( int i = 0; i < 50; i++ ){
+            arregloVrts[i].lstAdy = ListaOrdenada ( orig.arregloVrts[i].lstAdy );
+        i++;
+    }
 }
 
 Laberinto::~Laberinto() {
+    delete arregloVrts;
+    delete arregloAdys;
 }
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
 bool Laberinto::xstVrt(int idVrt) const {
-    return true;
+    return ( ( 0 <= idVrt ) && ( idVrt < cntVrts ) );
 }
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
-    return true;
+    bool adyacencia = false;
+    if( ( xstVrt(idVrtO)) && ( xstVrt(idVrtD) ) ){
+        adyacencia = arregloVrts[idVrtO].lstAdy.buscar(idVrtD);
+    }
+    return adyacencia;
 }
 
 int Laberinto::obtIdVrtInicial() const {
+     return idVrtInicial;
 }
 
 int Laberinto::obtIdVrtFinal() const {
+    return idVrtFinal;
 }
 
+
 void Laberinto::obtIdVrtAdys(int idVrt, int*& rsp) const {
+    if (xstVrt(idVrt)){
+        rsp = arregloVrts[idVrt].lstAdy.adyacencias();
+    }
 }
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
+    if ( ( xstVrt(idVrtO) ) && ( xstVrt(idVrtD) ) );{
+        // EFE: retorna los datos de la adyacencia entre <idVrtO, idVrtD>.
+        // NOTA: retorna por valor para que NO pueda ser modificado.
+    }
 }
 
 int Laberinto::obtCntAdy(int idVrt) const {
+    
 }
 
 int Laberinto::obtTotAdy() const {
 }
 
 int Laberinto::obtTotVrt() const {
+    return cntVrts;
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
@@ -107,9 +141,11 @@ double Laberinto::sumaTotalFerormona() const {
 }
 
 void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
+    idVrtInicial = idVrtInicialN;
 }
 
 void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
+    idVrtFinal = idVrtFinalN;
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
