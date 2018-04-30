@@ -26,7 +26,7 @@
 void testLaberinto() {
     int cantidadVrts = 50;
     double probabilidadAdy = 0.7;
-    //EL RANGO ES (+/-) 15.
+    //EL RANGO ES (+/-) 15. //De qué varía el rango, numero de vertices o número de adyacencias(¿puedo hacerlo de forma probabilistica?).
     probabilidadAdy = 0.16 + probabilidadAdy * (0.68); // MIN + P*(MAX-MIN):: MIN = 0.16,  MAX = 0.84
     Laberinto laberinto(cantidadVrts, probabilidadAdy);
     int totVrt = laberinto.obtTotVrt();
@@ -141,10 +141,20 @@ void testLaberinto3() {
 }
 
 void testXstVrt() {
-    int idVrt;
-    //Laberinto laberinto;
-    //bool result = laberinto.xstVrt(idVrt);
-    if (true) {
+    bool result = false;
+    int n = 10;
+    double probabilidadDeAdy = 0.7;
+    Laberinto laberinto( n , probabilidadDeAdy );
+    result = laberinto.xstVrt(7);
+    if (!result) {
+       std::cout << "%TEST_FAILED% time=0 testname=testXstVrt (Laberinto) message=error message sample" << std::endl;
+    }
+    result = laberinto.xstVrt(0);
+    if (!result) {
+       std::cout << "%TEST_FAILED% time=0 testname=testXstVrt (Laberinto) message=error message sample" << std::endl;
+    }
+    result = laberinto.xstVrt(9);
+    if (!result) {
        std::cout << "%TEST_FAILED% time=0 testname=testXstVrt (Laberinto) message=error message sample" << std::endl;
     }
 }

@@ -28,10 +28,5 @@ int main(int argc, char** argv) {
     int cntAdys = laberinto.obtCntAdy(0);
     int adyacencias[cntAdys];
     laberinto.obtIdVrtAdys(0, adyacencias);*/
-    int* p = new int(420);
-    /*
-     *lo uso...
-     */
-    delete p;
     return 0;
 }

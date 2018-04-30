@@ -113,18 +113,32 @@ void Laberinto::obtIdVrtAdys(int idVrt, int*& rsp) const {
     }
 }
 
+
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
+    Adyacencia result;
+    int k = 0; //DUDA: ¿cuál es el k ...?
     if ( ( xstVrt(idVrtO) ) && ( xstVrt(idVrtD) ) );{
-        // EFE: retorna los datos de la adyacencia entre <idVrtO, idVrtD>.
-        // NOTA: retorna por valor para que NO pueda ser modificado.
+        if( xstAdy ( idVrtO, idVrtD ) ){
+            result = arregloAdys[k];
+        }
     }
+    return result;
 }
 
 int Laberinto::obtCntAdy(int idVrt) const {
-    
+    int cantidadDeAdyacencias = -1;
+    if( xstVrt(idVrt) ){
+        cantidadDeAdyacencias = arregloVrts[idVrt].lstAdy.cantidadAdy();
+    }
+    return cantidadDeAdyacencias;
 }
 
 int Laberinto::obtTotAdy() const {
+    int cntTtlAdy = -1;
+    for( int i = 0; i < cntVrts; i++ ){
+        cntTtlAdy += arregloVrts[i].lstAdy.cantidadAdy();;
+    }
+    return cntTtlAdy;
 }
 
 int Laberinto::obtTotVrt() const {
@@ -138,6 +152,11 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
 }
 
 double Laberinto::sumaTotalFerormona() const {
+    double suma = 0.0;
+    for( int i = 0; i < (cntVrts * (cntVrts + 1) / 2); i++ ){
+        suma += arregloAdys[i].obtCntFerormona();
+    }
+    return suma;
 }
 
 void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
@@ -149,6 +168,7 @@ void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
+    
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
