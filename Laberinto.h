@@ -128,7 +128,7 @@ private:
 
     // REQ: (0 <= f < cntVrts) && (0 <= c < cntVrts)
     // EFE: retorna el índice de la adyacencia de [f,c]
-    int obtIndiceAdy(int f, int c) const; //DUDA: PORQUÉ ESTÁ ESTO ACÁ.
+    int obtIndiceAdy(int f, int c) const;
     
     struct Vertice {
         ListaOrdenada lstAdy;

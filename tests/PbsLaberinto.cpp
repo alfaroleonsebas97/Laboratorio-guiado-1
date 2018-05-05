@@ -18,7 +18,6 @@
 #include <fstream>
 #include <string>
 
-
 /*
  * Simple C++ Test Suite
  */
@@ -26,7 +25,6 @@
 void testLaberinto() {
     int cantidadVrts = 50;
     double probabilidadAdy = 0.7;
-    //EL RANGO ES (+/-) 15. //De qué varía el rango, numero de vertices o número de adyacencias(¿puedo hacerlo de forma probabilistica?).
     probabilidadAdy = 0.16 + probabilidadAdy * (0.68); // MIN + P*(MAX-MIN):: MIN = 0.16,  MAX = 0.84
     Laberinto laberinto(cantidadVrts, probabilidadAdy);
     int totVrt = laberinto.obtTotVrt();
@@ -36,84 +34,55 @@ void testLaberinto() {
         totAdy += laberinto.obtTotAdy();
     }
     double promedio = totAdy / 50000.0;
-    double media =  probabilidadAdy*50*(49);//p*n*(n-1), n = 50
+    double media = probabilidadAdy * 50 * (49); //p*n*(n-1), n = 50
     if (totVrt != 50) {
         std::cout << "%TEST_FAILED% time=0 testname=testLaberinto (Laberinto) message=La cantidad total no es igual a 50" << std::endl;
     }
-    if(promedio < media-(0.15)){
+    if (promedio < media - (15)) {
         std::cout << "%TEST_FAILED% time=0 testname=testLaberinto (Laberinto) message=El promedio está más abajo de la media esperada" << std::endl;
     }
-    if(promedio > media + (0.15)){
+    if (promedio > media + (15)) {
         std::cout << "%TEST_FAILED% time=0 testname=testLaberinto (Laberinto) message=El promedio está más arriba de la media esperada" << std::endl;
     }
 }
 
 void testLaberinto2() {
     ifstream archivo("laberintop.txt");
-    if (archivo.is_open()){
+    if (archivo.is_open()) {
         int cantidadDeVerticesEnElArchivo;
         string hileraActual;
+        getline(archivo, hileraActual);
+
+        cantidadDeVerticesEnElArchivo = stoi(hileraActual);
         int cantidadDeAdyacenciasPorVertice[10];
-        int numeroDeLinea = -1;
-        while ( getline (archivo,hileraActual) ){
-            //cout << hileraActual << endl;
-            if (-1 == numeroDeLinea){
-                cantidadDeVerticesEnElArchivo = stoi(hileraActual);
-            } else {
-                int i = 0;
-                while( hileraActual[i] != '\r'){
-                    if(hileraActual[i] == ' '){
-                        cantidadDeAdyacenciasPorVertice[numeroDeLinea]++;
-                    }
-                    i++;
+        int NumeroDeLinea = 0;
+
+        while (getline(archivo, hileraActual)) {
+            int contadorEspaciosEnBlanco = 0;
+            int indiceDeLaHilera = 0;
+            while (hileraActual[indiceDeLaHilera] != '\r') {
+                if (hileraActual[indiceDeLaHilera] == ' ') {
+                    contadorEspaciosEnBlanco++;
                 }
+                indiceDeLaHilera++;
             }
-            numeroDeLinea++;
+            cantidadDeAdyacenciasPorVertice[NumeroDeLinea] = contadorEspaciosEnBlanco;
+            NumeroDeLinea++;
         }
+
         archivo.close();
-        Laberinto laberinto2(archivo);
-        if (cantidadDeVerticesEnElArchivo != laberinto2.obtTotVrt()) {
-            std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Pequeño)Cantidad de vertices total no coincide." << std::endl;
-        }
-        for(int j = 0; j < 10; j++){
-            if (cantidadDeAdyacenciasPorVertice[j] != laberinto2.obtCntAdy(j)) {
-                std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Pequeño)La cantidad de adyacencias del vertice " << j << " no coincide." << std::endl;
+        ifstream archivo2("laberintop.txt");
+        if (archivo2.is_open()) {
+            Laberinto laberinto2(archivo2);
+            if (cantidadDeVerticesEnElArchivo != laberinto2.obtTotVrt()) {
+                std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Pequeño)Cantidad de vertices total no coincide." << std::endl;
             }
-        }
-    } else {
-        cout << "No se pudo abrir el archivo de entrada" << endl;
-    }
-    
-    ifstream archivoM("laberintom.txt");
-    if (archivoM.is_open()){
-        int cantidadDeVerticesEnElArchivo;
-        string hileraActual;
-        int cantidadDeAdyacenciasPorVertice[10];
-        int numeroDeLinea = -1;
-        while ( getline (archivoM,hileraActual) ){
-            //cout << hileraActual << endl;
-            if (-1 == numeroDeLinea){
-                cantidadDeVerticesEnElArchivo = stoi(hileraActual);
-            } else {
-                int i = 0;
-                while( hileraActual[i] != '\r'){
-                    if(hileraActual[i] == ' '){
-                        cantidadDeAdyacenciasPorVertice[numeroDeLinea]++;
-                    }
-                    i++;
+            for (int j = 0; j < 10; j++) {
+                if (cantidadDeAdyacenciasPorVertice[j] != laberinto2.obtCntAdy(j)) {
+                    std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Pequeño)La cantidad de adyacencias del vertice " << j << " no coincide." << std::endl;
                 }
             }
-            numeroDeLinea++;
-        }
-        archivoM.close();
-        Laberinto laberinto2(archivoM);
-        if (cantidadDeVerticesEnElArchivo != laberinto2.obtTotVrt()) {
-            std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Mediano)Cantidad de vertices total no coincide." << std::endl;
-        }
-        for(int j = 0; j < 10; j++){
-            if (cantidadDeAdyacenciasPorVertice[j] != laberinto2.obtCntAdy(j)) {
-                std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Mediano)La cantidad de adyacencias del vertice " << j << " no coincide." << std::endl;
-            }
+            archivo2.close();
         }
     } else {
         cout << "No se pudo abrir el archivo de entrada" << endl;
@@ -121,188 +90,70 @@ void testLaberinto2() {
 }
 
 void testLaberinto3() {
-    Laberinto laberintoOriginal( 50, 0.70 );
-    Laberinto laberintoCopia( laberintoOriginal );
-    int cantidadDeVertices;
-    cantidadDeVertices = laberintoCopia.obtTotVrt();
-    if ( cantidadDeVertices != 50 ) {
-        std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=la cantidad de vertices no coinciden" << std::endl;
-    } else {
-        int cantidadDeAdyEnOriginal;
-        int cantidadDeAdyEnCopia;
-        for ( int i = 0; i < 50; i++ ){
-            cantidadDeAdyEnOriginal = laberintoOriginal.obtCntAdy(i);
-            cantidadDeAdyEnCopia = laberintoCopia.obtCntAdy(i);
-            if ( cantidadDeAdyEnOriginal != cantidadDeAdyEnCopia ){
-                std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=la cantidad de adyacencias no coinciden" << std::endl;
+    ifstream archivo("laberintop.txt");
+    if (archivo.is_open()) {
+        Laberinto laberintoOriginal(archivo);
+        Laberinto laberintoCopia(laberintoOriginal);
+        int cantidadDeVertices;
+        cantidadDeVertices = laberintoCopia.obtTotVrt();
+        if (cantidadDeVertices != 10) {
+            std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=la cantidad de vertices no coinciden" << std::endl;
+        } else {
+            for (int i = 0; i < 10; i++) {
+                if (laberintoOriginal.obtCntAdy(i) != laberintoCopia.obtCntAdy(i)) {
+                    std::cout << "%TEST_FAILED% time=0 testname=testLaberinto3 (Laberinto) message=la cantidad de adyacencias no coinciden en el vertice: " << i << std::endl;
+                }
             }
         }
-    }
-}
-
-void testXstVrt() {
-    bool result = false;
-    int n = 10;
-    double probabilidadDeAdy = 0.7;
-    Laberinto laberinto( n , probabilidadDeAdy );
-    result = laberinto.xstVrt(7);
-    if (!result) {
-       std::cout << "%TEST_FAILED% time=0 testname=testXstVrt (Laberinto) message=error message sample" << std::endl;
-    }
-    result = laberinto.xstVrt(0);
-    if (!result) {
-       std::cout << "%TEST_FAILED% time=0 testname=testXstVrt (Laberinto) message=error message sample" << std::endl;
-    }
-    result = laberinto.xstVrt(9);
-    if (!result) {
-       std::cout << "%TEST_FAILED% time=0 testname=testXstVrt (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testXstAdy() {
-    int idNdO;
-    int idVrtD;
-    Laberinto laberinto();
-    //bool result = laberinto.xstAdy(idNdO, idVrtD);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testXstAdy (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtIdVrtInicial() {
-    //Laberinto laberinto;
-    //int result = laberinto.obtIdVrtInicial();
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtIdVrtInicial (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtIdVrtFinal() {
-    //Laberinto laberinto;
-    //int result = laberinto.obtIdVrtFinal();
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtIdVrtFinal (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtIdVrtAdys() {
-    int idVrt;
-    int* rsp;
-    //Laberinto laberinto;
-    //laberinto.obtIdVrtAdys(idVrt, rsp);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtIdVrtAdys (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtDatoAdy() {
-    int idVrtO;
-    int idVrtD;
-    //Laberinto laberinto;
-    //Adyacencia result = laberinto.obtDatoAdy(idVrtO, idVrtD);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtDatoAdy (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtCntAdy() {
-    int idVrt;
-    //Laberinto laberinto;
-    //int result = laberinto.obtCntAdy(idVrt);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtCntAdy (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtTotAdy() {
-    //Laberinto laberinto;
-    //int result = laberinto.obtTotAdy();
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtTotAdy (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testObtTotVrt() {
-    //Laberinto laberinto;
-    //int result = laberinto.obtTotVrt();
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testObtTotVrt (Laberinto) message=error message sample" << std::endl;
+        archivo.close();
     }
 }
 
 void testCaminoMasCorto() {
-    int idVrtO;
-    int idVrtD;
-    int* camino;
+    //tres pruebas.1,2,3.
+    //sin cola de prioridad Dijkstra en 
+    //int idVrtO;
+    //int idVrtD;
+    //int* camino;
     //Laberinto laberinto;
     //int result = laberinto.caminoMasCorto(idVrtO, idVrtD, camino);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=error message sample" << std::endl;
-    }
+    //if (true) {
+    //    std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=error message sample" << std::endl;
+    //}
 }
 
 void testCaminoEncontrado() {
-    int idVrtO;
-    int idVrtD;
-    int* camino;
+    //int idVrtO;
+    //int idVrtD;
+    //int* camino;
     //Laberinto laberinto;
     //int result = laberinto.caminoEncontrado(idVrtO, idVrtD, camino);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testCaminoEncontrado (Laberinto) message=error message sample" << std::endl;
-    }
+    //if (true) {
+    //  std::cout << "%TEST_FAILED% time=0 testname=testCaminoEncontrado (Laberinto) message=error message sample" << std::endl;
+    //}
 }
 
 void testSumaTotalFerormona() {
-    //Laberinto laberinto;
-    //double result = laberinto.sumaTotalFerormona();
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testAsgIdVrtInicial() {
-    int idVrtInicialN;
-    //Laberinto laberinto;
-    //laberinto.asgIdVrtInicial(idVrtInicialN);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testAsgIdVrtInicial (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testAsgIdVrtFinal() {
-    int idVrtFinalN;
-    //Laberinto laberinto;
-    //laberinto.asgIdVrtFinal(idVrtFinalN);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testAsgIdVrtFinal (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testAsgDatoAdy() {
-    int idVrtO;
-    int idVrtD;
-    //const Adyacencia& ady;
-    //Laberinto laberinto;
-    //laberinto.asgDatoAdy(idVrtO, idVrtD, ady);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testAsgDatoAdy (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testDecrementarFerormonaAdys() {
-    double decrFerormona;
-    //Laberinto laberinto;
-    //laberinto.decrementarFerormonaAdys(decrFerormona);
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testDecrementarFerormonaAdys (Laberinto) message=error message sample" << std::endl;
-    }
-}
-
-void testActualizarValoracionAdys() {
-    //Laberinto laberinto;
-    //laberinto.actualizarValoracionAdys();
-    if (true) {
-        std::cout << "%TEST_FAILED% time=0 testname=testActualizarValoracionAdys (Laberinto) message=error message sample" << std::endl;
+    //asignar un 1 a la ferormona de todas las aristas que existen en el laberinto.
+    //suma total = total de adyacencias.
+    ifstream archivo("laberintop.txt");
+    if (archivo.is_open()) {
+        Laberinto laberinto("laberintop.txt");
+        int cntVrts = laberinto.obtTotVrt();
+        int cntAdy;
+        Adyacencia ady( 1.0, 1.0 );
+        int rsp;
+        for (int verticeOrigen = 0; verticeOrigen < cntVrts; verticeOrigen++) {
+            cntAdy = laberinto.obtCntAdy(verticeOrigen);
+            for (int verticeDestino = 0; verticeDestino < cntAdy; verticeDestino++) {
+                rsp = laberinto.obtIdVrtAdys(verticeDestino);
+                laberinto.asgDatoAdy(verticeOrigen, rsp, ady);
+            }
+        }
+        archivo.close();
+        if ( laberinto.sumaTotalFerormona() != laberinto.obtTotAdy() ) {
+            std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (Laberinto) message=error message sample" << std::endl;
+        }
     }
 }
 
@@ -310,9 +161,9 @@ int main(int argc, char** argv) {
     std::cout << "%SUITE_STARTING% Laberinto" << std::endl;
     std::cout << "%SUITE_STARTED%" << std::endl;
 
-    std::cout << "%TEST_STARTED% testLaberinto (Laberinto)" << std::endl;
-    testLaberinto();
-    std::cout << "%TEST_FINISHED% time=0 testLaberinto (Laberinto)" << std::endl;
+    //std::cout << "%TEST_STARTED% testLaberinto (Laberinto)" << std::endl;
+    //testLaberinto();
+    //std::cout << "%TEST_FINISHED% time=0 testLaberinto (Laberinto)" << std::endl;
 
     std::cout << "%TEST_STARTED% testLaberinto2 (Laberinto)" << std::endl;
     testLaberinto2();
@@ -321,42 +172,6 @@ int main(int argc, char** argv) {
     std::cout << "%TEST_STARTED% testLaberinto3 (Laberinto)" << std::endl;
     testLaberinto3();
     std::cout << "%TEST_FINISHED% time=0 testLaberinto3 (Laberinto)" << std::endl;
-
-    /*std::cout << "%TEST_STARTED% testXstVrt (Laberinto)" << std::endl;
-    testXstVrt();
-    std::cout << "%TEST_FINISHED% time=0 testXstVrt (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testXstAdy (Laberinto)" << std::endl;
-    testXstAdy();
-    std::cout << "%TEST_FINISHED% time=0 testXstAdy (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtIdVrtInicial (Laberinto)" << std::endl;
-    testObtIdVrtInicial();
-    std::cout << "%TEST_FINISHED% time=0 testObtIdVrtInicial (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtIdVrtFinal (Laberinto)" << std::endl;
-    testObtIdVrtFinal();
-    std::cout << "%TEST_FINISHED% time=0 testObtIdVrtFinal (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtIdVrtAdys (Laberinto)" << std::endl;
-    testObtIdVrtAdys();
-    std::cout << "%TEST_FINISHED% time=0 testObtIdVrtAdys (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtDatoAdy (Laberinto)" << std::endl;
-    testObtDatoAdy();
-    std::cout << "%TEST_FINISHED% time=0 testObtDatoAdy (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtCntAdy (Laberinto)" << std::endl;
-    testObtCntAdy();
-    std::cout << "%TEST_FINISHED% time=0 testObtCntAdy (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtTotAdy (Laberinto)" << std::endl;
-    7testObtTotAdy();
-    std::cout << "%TEST_FINISHED% time=0 testObtTotAdy (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testObtTotVrt (Laberinto)" << std::endl;
-    testObtTotVrt();
-    std::cout << "%TEST_FINISHED% time=0 testObtTotVrt (Laberinto)" << std::endl;
 
     std::cout << "%TEST_STARTED% testCaminoMasCorto (Laberinto)" << std::endl;
     testCaminoMasCorto();
@@ -369,26 +184,6 @@ int main(int argc, char** argv) {
     std::cout << "%TEST_STARTED% testSumaTotalFerormona (Laberinto)" << std::endl;
     testSumaTotalFerormona();
     std::cout << "%TEST_FINISHED% time=0 testSumaTotalFerormona (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testAsgIdVrtInicial (Laberinto)" << std::endl;
-    testAsgIdVrtInicial();
-    std::cout << "%TEST_FINISHED% time=0 testAsgIdVrtInicial (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testAsgIdVrtFinal (Laberinto)" << std::endl;
-    testAsgIdVrtFinal();
-    std::cout << "%TEST_FINISHED% time=0 testAsgIdVrtFinal (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testAsgDatoAdy (Laberinto)" << std::endl;
-    testAsgDatoAdy();
-    std::cout << "%TEST_FINISHED% time=0 testAsgDatoAdy (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testDecrementarFerormonaAdys (Laberinto)" << std::endl;
-    testDecrementarFerormonaAdys();
-    std::cout << "%TEST_FINISHED% time=0 testDecrementarFerormonaAdys (Laberinto)" << std::endl;
-
-    std::cout << "%TEST_STARTED% testActualizarValoracionAdys (Laberinto)" << std::endl;
-    testActualizarValoracionAdys();
-    std::cout << "%TEST_FINISHED% time=0 testActualizarValoracionAdys (Laberinto)" << std::endl;*/
 
     std::cout << "%SUITE_FINISHED% time=0" << std::endl;
 

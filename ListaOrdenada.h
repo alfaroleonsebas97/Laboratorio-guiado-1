@@ -62,7 +62,7 @@ private:
         Nodo(int p): pos(p), sgt(0){};
     };
     
-    int cntAdy = 0; // representa la cantidad de Nodos o adyacencias en la lista.
+    int cntAdy; // representa la cantidad de Nodos o adyacencias en la lista.
     shared_ptr<Nodo> inicio; // representa el apuntador al inicio de la lista
 };
 

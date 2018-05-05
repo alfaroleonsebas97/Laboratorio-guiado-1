@@ -8,10 +8,12 @@
 #include "ListaOrdenada.h"
 
 ListaOrdenada::ListaOrdenada() : inicio(nullptr) {
+    cntAdy = 0;
 }
 
 ListaOrdenada::ListaOrdenada(const ListaOrdenada& orig) {
     shared_ptr<Nodo> p = orig.inicio;
+    cntAdy = orig.cntAdy;
     if (p == nullptr) {
         inicio = nullptr;
     } else {
@@ -36,7 +38,6 @@ void ListaOrdenada::agregar(int nPos) {
     if (inicio == nullptr) {
         inicio = shared_ptr<Nodo>(new Nodo(nPos));
         cntAdy++;
-        rsl = true;
     } else {
         if (inicio->pos > nPos) {
             p = shared_ptr<Nodo>(new Nodo(nPos));
