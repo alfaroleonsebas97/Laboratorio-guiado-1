@@ -52,14 +52,14 @@ Laberinto::Laberinto(ifstream& archivo) {
     while (getline(archivo, hileraActual)) {
         int i = 0;
         while (hileraActual[i] != '\r') {
-                if (hileraActual[i] != ' ') {
-                    hileraTemporal += hileraActual[i];
-                } else {
-                    numeroDeAdyacencia = stoi(hileraTemporal);
-                    //cout << numeroDeAdyacencia << endl;
-                    hileraTemporal = "";
-                    arregloVrts[numeroDeLinea].lstAdy.agregar(numeroDeAdyacencia);
-                }
+            if (hileraActual[i] != ' ') {
+                hileraTemporal += hileraActual[i];
+            } else {
+                numeroDeAdyacencia = stoi(hileraTemporal);
+                //cout << numeroDeAdyacencia << endl;
+                hileraTemporal = "";
+                arregloVrts[numeroDeLinea].lstAdy.agregar(numeroDeAdyacencia);
+            }
             i++;
         }
         numeroDeLinea++;
@@ -144,11 +144,11 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
-    
+
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
-    
+
 }
 
 double Laberinto::sumaTotalFerormona() const {
@@ -168,13 +168,16 @@ void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
-
+    int k = obtIndiceAdy(idVrtO, idVrtD);
+    arregloAdys[k] = Adyacencia(ady);
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
+    
 }
 
 void Laberinto::actualizarValoracionAdys() {
+    
 }
 
 int Laberinto::obtIndiceAdy(int f, int c) const {

@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     int cntAdys = laberinto.obtCntAdy(0);
     int adyacencias[cntAdys];
     laberinto.obtIdVrtAdys(0, adyacencias);*/
-    ifstream archivo("laberintop.txt");
+    /*ifstream archivo("laberintop.txt");
     if (archivo.is_open()) {
         Laberinto laberinto(archivo);
         int cantidadDeAdyacenciasPorVertice[] = {5,2,5,3,4,4,4,2,4,2};
@@ -40,6 +40,5 @@ int main(int argc, char** argv) {
                 std::cout << "%TEST_FAILED% time=0 testname=testLaberinto2 (Laberinto) message=(Archivo Pequeño)La cantidad de adyacencias del vertice " << j << " no coincide." << std::endl;
             }
         }
-    }
-    return 0;
+    }*/
 }
