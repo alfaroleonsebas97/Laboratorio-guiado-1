@@ -88,8 +88,6 @@ void testLaberinto2() {
     
     
     
-    
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ifstream archivo2("laberintom.txt");
     if (archivo2.is_open()) {
         int cantidadDeVerticesEnElArchivo2;
@@ -151,8 +149,8 @@ void testLaberinto3() {
 }
 
 void testCaminoMasCorto() {
-    //tres pruebas.1,2,3.
-    //sin cola de prioridad Dijkstra en 
+    //tres pruebas.distancias: 1,2,3.
+
     //int idVrtO;
     //int idVrtD;
     //int* camino;
@@ -164,6 +162,8 @@ void testCaminoMasCorto() {
 }
 
 void testCaminoEncontrado() {
+    //tres pruebas.distancias: 2,3,4.
+    
     //int idVrtO;
     //int idVrtD;
     //int* camino;
@@ -180,7 +180,7 @@ void testSumaTotalFerormona() {
         Laberinto laberinto(archivo);
         int cntVrts = laberinto.obtTotVrt();
         int cntAdy;
-        Adyacencia ady( 1.0, 1.0 ); //¿qué es valoración?
+        Adyacencia ady( 1.0, 1.0 );
         int* vectorAdyacenciasDeCadaVerice;
         for ( int verticeOrigen = 0; verticeOrigen < cntVrts; verticeOrigen++ ) {
             cntAdy = laberinto.obtCntAdy( verticeOrigen );

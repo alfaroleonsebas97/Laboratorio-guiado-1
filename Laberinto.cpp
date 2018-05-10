@@ -25,6 +25,12 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy) {
     idVrtFinal = -1;
     arregloVrts = new Vertice[cntVrts];
     arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
+
+    for (int k = 0; k < (cntVrts * (cntVrts + 1) / 2); k++) {
+        arregloAdys[k].asgValoracion(-1.0);
+        arregloAdys[k].asgCntFerormona(-1.0);
+    }
+
     double numeroAleatorio = 0.0;
     srand(time(NULL));
     for (int i = 0; i < cntVrts; i++) {
@@ -45,6 +51,12 @@ Laberinto::Laberinto(ifstream& archivo) {
     getline(archivo, hileraActual);
     cntVrts = stoi(hileraActual);
     arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
+
+    for (int k = 0; k < (cntVrts * (cntVrts + 1) / 2); k++) {
+        arregloAdys[k].asgValoracion(-1.0);
+        arregloAdys[k].asgCntFerormona(-1.0);
+    }
+
     arregloVrts = new Vertice[cntVrts];
     int numeroDeAdyacencia;
     string hileraTemporal;
@@ -56,7 +68,6 @@ Laberinto::Laberinto(ifstream& archivo) {
                 hileraTemporal += hileraActual[i];
             } else {
                 numeroDeAdyacencia = stoi(hileraTemporal);
-                //cout << numeroDeAdyacencia << endl;
                 hileraTemporal = "";
                 arregloVrts[numeroDeLinea].lstAdy.agregar(numeroDeAdyacencia);
             }
@@ -71,6 +82,12 @@ Laberinto::Laberinto(const Laberinto& orig) {
     idVrtInicial = -1;
     idVrtFinal = -1;
     arregloAdys = new Adyacencia[cntVrts * (cntVrts + 1) / 2];
+
+    for (int k = 0; k < (cntVrts * (cntVrts + 1) / 2); k++) {
+        arregloAdys[k].asgValoracion(-1.0);
+        arregloAdys[k].asgCntFerormona(-1.0);
+    }
+
     arregloVrts = new Vertice[cntVrts];
     for (int i = 0; i < cntVrts; i++) {
         arregloVrts[i].lstAdy = orig.arregloVrts[i].lstAdy;
@@ -144,7 +161,47 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
+    if (xstVrt(idVrtO) && xstVrt(idVrtD)) {
+        int distancia[cntVrts];
+        bool visto[cntVrts];
+        //int antecesores[cntVrts];
+        for (int i = 0; i < cntVrts; i++) {
+            if (!xstAdy(idVrtO, i)) {
+                distancia[i] = INT_MAX;
+                //antecesores[i] = -1;
+            } else {
+                distancia[i] = 1;
+            }
+        }
+        distancia[idVrtO] = 0;
+        visto[idVrtO] = true;
 
+        while (visto[idVrtD] == false) {
+            
+            //tomar_el_mínimo_del_vector distancia y que no esté visto;
+            int vertice;
+            int primerNoVisto = 0;
+            while( !visto[primerNoVisto]){
+                primerNoVisto++;
+            }
+            vertice = primerNoVisto;
+            for (int m = 0; m < cntVrts; m++) {
+                if ( ( !visto[m] ) && ( distancia[m] < distancia[vertice] ) ) {
+                    vertice = m;
+                }
+            }
+            visto[vertice] = true;
+            
+            int* sucesores[obtCntAdy(vertice)];
+            sucesores = arregloVrts[vertice].lstAdy.adyacencias();
+            for( int j = 0; j < obtCntAdy(vertice); j++ ){ //para cada w ∈ sucesores (G, vértice) hacer
+                if( distancia[*sucesores[j]] > ( distancia[vertice] + 1 ) ){ //si distancia[w]>distancia[vértice]+ peso (vértice, w) entonces
+                    distancia[*sucesores[j]] = distancia[vertice] + 1;//distancia[w] = distancia[vértice]+peso (vértice, w)
+                }
+            }
+            
+        }
+    }
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
@@ -173,17 +230,25 @@ void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
-    
+    for (int i = 0; i < (cntVrts * (cntVrts + 1) / 2); i++) {
+        if (arregloAdys[i].obtCntFerormona() != (-1.0)) {
+            arregloAdys[i].asgCntFerormona((arregloAdys[i].obtCntFerormona()) * (decrFerormona));
+        }
+    }
 }
 
 void Laberinto::actualizarValoracionAdys() {
-    
+    for (int i = 0; i < (cntVrts * (cntVrts + 1) / 2); i++) {
+        if (arregloAdys[i].obtValoracion() != (-1.0)) {
+            arregloAdys[i].asgValoracion((arregloAdys[i].obtCntFerormona()) / (sumaTotalFerormona()));
+        }
+    }
 }
 
 int Laberinto::obtIndiceAdy(int f, int c) const {
     if (f > c) {
         int t = f;
-        f = c;
+        f = t;
         c = f;
     }
     return f * cntVrts + c - f * (f + 1) / 2;
