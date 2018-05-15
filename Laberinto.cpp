@@ -18,6 +18,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <climits>
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy) {
     cntVrts = cantidadVrts;
@@ -161,30 +162,32 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
+    int size = -1;
     if (xstVrt(idVrtO) && xstVrt(idVrtD)) {
         int distancia[cntVrts];
         bool visto[cntVrts];
-        //int antecesores[cntVrts];
+        visto[idVrtD] = false;
+        int antecesores[cntVrts];
         for (int i = 0; i < cntVrts; i++) {
             if (!xstAdy(idVrtO, i)) {
                 distancia[i] = INT_MAX;
-                //antecesores[i] = -1;
+                antecesores[i] = -2;
             } else {
                 distancia[i] = 1;
+                antecesores[i] = idVrtO;
             }
         }
         distancia[idVrtO] = 0;
+        antecesores[idVrtO] = -1;
         visto[idVrtO] = true;
 
         while (visto[idVrtD] == false) {
             
             //tomar_el_mínimo_del_vector distancia y que no esté visto;
-            int vertice;
-            int primerNoVisto = 0;
-            while( !visto[primerNoVisto]){
-                primerNoVisto++;
+            int vertice = 0;
+            while( visto[vertice] ){
+                vertice++;
             }
-            vertice = primerNoVisto;
             for (int m = 0; m < cntVrts; m++) {
                 if ( ( !visto[m] ) && ( distancia[m] < distancia[vertice] ) ) {
                     vertice = m;
@@ -192,20 +195,33 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
             }
             visto[vertice] = true;
             
-            int* sucesores[obtCntAdy(vertice)];
-            sucesores = arregloVrts[vertice].lstAdy.adyacencias();
-            for( int j = 0; j < obtCntAdy(vertice); j++ ){ //para cada w ∈ sucesores (G, vértice) hacer
-                if( distancia[*sucesores[j]] > ( distancia[vertice] + 1 ) ){ //si distancia[w]>distancia[vértice]+ peso (vértice, w) entonces
-                    distancia[*sucesores[j]] = distancia[vertice] + 1;//distancia[w] = distancia[vértice]+peso (vértice, w)
+            int* sucesores = arregloVrts[vertice].lstAdy.adyacencias();
+            for( int j = 0; j < obtCntAdy(vertice); j++ ){                      //para cada w ∈ sucesores (G, vértice) hacer
+                if( distancia[sucesores[j]] > ( distancia[vertice] + 1 ) ){     //si distancia[w]>distancia[vértice]+ peso (vértice, w) entonces
+                    distancia[sucesores[j]] = distancia[vertice] + 1;           //distancia[w] = distancia[vértice]+peso (vértice, w)
+                    antecesores[sucesores[j]] = vertice;
                 }
             }
-            
         }
+        
+        size = distancia[ idVrtD ] + 1;
+        camino = new int[ size ];
+        size = size - 1;
+        int k = idVrtD;
+        int index = distancia[idVrtD];                                          
+        while( antecesores[k] != -1){
+            camino[index] = k;
+            index--;
+            k = antecesores[k];
+        }
+        camino[0] = idVrtO;
+        size = distancia[ idVrtD ];
     }
+    return size;
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
-
+    
 }
 
 double Laberinto::sumaTotalFerormona() const {

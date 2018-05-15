@@ -68,7 +68,7 @@ void testLaberinto2() {
             NumeroDeLinea++;
         }
         archivo.close();
-        
+
         ifstream nuevoArchivo("laberintop.txt");
         if (nuevoArchivo.is_open()) {
             Laberinto laberinto(nuevoArchivo);
@@ -85,9 +85,9 @@ void testLaberinto2() {
     } else {
         cout << "No se pudo abrir el archivo de entrada" << endl;
     }
-    
-    
-    
+
+
+
     ifstream archivo2("laberintom.txt");
     if (archivo2.is_open()) {
         int cantidadDeVerticesEnElArchivo2;
@@ -109,7 +109,7 @@ void testLaberinto2() {
             NumeroDeLinea2++;
         }
         archivo2.close();
-        
+
         ifstream nuevoArchivo2("laberintom.txt");
         if (nuevoArchivo2.is_open()) {
             Laberinto laberinto2(nuevoArchivo2);
@@ -149,21 +149,70 @@ void testLaberinto3() {
 }
 
 void testCaminoMasCorto() {
-    //tres pruebas.distancias: 1,2,3.
-
-    //int idVrtO;
-    //int idVrtD;
-    //int* camino;
-    //Laberinto laberinto;
-    //int result = laberinto.caminoMasCorto(idVrtO, idVrtD, camino);
-    //if (true) {
-    //    std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=error message sample" << std::endl;
-    //}
+    ifstream archivo("laberintop.txt");
+    if (archivo.is_open()) {
+        int idVrtO = 9;
+        int idVrtD = 5;
+        int* camino;
+        Laberinto laberinto(archivo);
+        int result = laberinto.caminoMasCorto(idVrtO, idVrtD, camino);
+        if (result != 1) {
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino más corto del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
+        }
+        int caminoAProbar[] = {9,5};
+        for(int i = 0; i < result + 1 ; i++){
+            if ( camino[i] != caminoAProbar[i] ){
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la segunda prueba"<<std::endl;
+            }
+        }
+        delete camino;
+        archivo.close();
+    }
+    
+    ifstream archivo2("laberintop.txt");
+    if (archivo2.is_open()) {
+        int idVrtO = 9;
+        int idVrtD = 8;
+        int* camino2;
+        Laberinto laberinto2(archivo2);
+        int result2 = laberinto2.caminoMasCorto(idVrtO, idVrtD, camino2);
+        if (result2 != 2) {
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino más corto del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
+        }
+        int caminoAProbar[] = {9,3,8};
+        for(int i = 0; i < result2 + 1 ; i++){
+            if ( camino2[i] != caminoAProbar[i] ){
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la segunda prueba"<<std::endl;
+            }
+        }
+        delete camino2;
+        archivo2.close();
+    }
+    
+    ifstream archivo3("laberintop.txt");
+    if (archivo3.is_open()) {
+        int idVrtO = 3;
+        int idVrtD = 1;
+        int* camino3;
+        Laberinto laberinto3(archivo3);
+        int result3 = laberinto3.caminoMasCorto(idVrtO, idVrtD, camino3);
+        if (result3 != 3) {
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino más corto del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
+        }
+        int caminoAProbar[] = {3,8,2,1};
+        for(int i = 0; i < result3 + 1 ; i++){
+            if ( camino3[i] != caminoAProbar[i] ){
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la tercera prueba"<<std::endl;
+            }
+        }
+        delete camino3;
+        archivo3.close();
+    }    
 }
 
 void testCaminoEncontrado() {
     //tres pruebas.distancias: 2,3,4.
-    
+
     //int idVrtO;
     //int idVrtD;
     //int* camino;
@@ -180,17 +229,17 @@ void testSumaTotalFerormona() {
         Laberinto laberinto(archivo);
         int cntVrts = laberinto.obtTotVrt();
         int cntAdy;
-        Adyacencia ady( 1.0, 1.0 );
+        Adyacencia ady(1.0, 1.0);
         int* vectorAdyacenciasDeCadaVerice;
-        for ( int verticeOrigen = 0; verticeOrigen < cntVrts; verticeOrigen++ ) {
-            cntAdy = laberinto.obtCntAdy( verticeOrigen );
-            laberinto.obtIdVrtAdys( verticeOrigen, vectorAdyacenciasDeCadaVerice );
-            for ( int verticeDestino = 0; verticeDestino < cntAdy; verticeDestino++ ) {
+        for (int verticeOrigen = 0; verticeOrigen < cntVrts; verticeOrigen++) {
+            cntAdy = laberinto.obtCntAdy(verticeOrigen);
+            laberinto.obtIdVrtAdys(verticeOrigen, vectorAdyacenciasDeCadaVerice);
+            for (int verticeDestino = 0; verticeDestino < cntAdy; verticeDestino++) {
                 laberinto.asgDatoAdy(verticeOrigen, vectorAdyacenciasDeCadaVerice[verticeDestino], ady);
             }
         }
         archivo.close();
-        if ( laberinto.sumaTotalFerormona() != laberinto.obtTotAdy() ) {
+        if (laberinto.sumaTotalFerormona() != laberinto.obtTotAdy()) {
             std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (Laberinto) message=error message sample" << std::endl;
         }
     }
