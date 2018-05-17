@@ -172,14 +172,14 @@ void testCaminoMasCorto() {
     ifstream archivo2("laberintop.txt");
     if (archivo2.is_open()) {
         int idVrtO = 9;
-        int idVrtD = 8;
+        int idVrtD = 0;
         int* camino2;
         Laberinto laberinto2(archivo2);
         int result2 = laberinto2.caminoMasCorto(idVrtO, idVrtD, camino2);
         if (result2 != 2) {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino más corto del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
-        int caminoAProbar[] = {9,3,8};
+        int caminoAProbar[] = {9,5,0};
         for(int i = 0; i < result2 + 1 ; i++){
             if ( camino2[i] != caminoAProbar[i] ){
                 std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la segunda prueba"<<std::endl;

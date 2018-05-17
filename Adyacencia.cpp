@@ -17,6 +17,7 @@ Adyacencia::Adyacencia() {
 }
 
 Adyacencia::Adyacencia(double cf, double v){
+    
 }
 
 Adyacencia::Adyacencia(const Adyacencia& orig){

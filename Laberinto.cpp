@@ -166,7 +166,9 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
     if (xstVrt(idVrtO) && xstVrt(idVrtD)) {
         int distancia[cntVrts];
         bool visto[cntVrts];
-        visto[idVrtD] = false;
+        for (bool& index: visto) {
+            index = false;
+        }
         int antecesores[cntVrts];
         for (int i = 0; i < cntVrts; i++) {
             if (!xstAdy(idVrtO, i)) {

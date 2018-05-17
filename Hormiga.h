@@ -55,6 +55,8 @@ public:
     // REQ: que la hormiga (*this) esté activa.
     // EFE: la hormiga avanza a un vértice adyacente.
     void mover(const Laberinto& lbrt);
+    
+    static int cntVrts; // representa la cantidad de vértices del laberinto a recorrer por las hormigas
 
 private:
 
@@ -75,6 +77,7 @@ private:
 
     /* OPERACIONES SOBRE LA MEMORIA DE LA HORMIGA */
     
+    
     // RET: true si idVrt está en memoria y false en caso contrario.
     bool estaEnMemoria(int idVrt);
     void pushMemo();
@@ -90,7 +93,7 @@ private:
     int enRetroceso; // si es mayor a cero, la hormiga está retrocediendo esta cantidad de pasos porque topó con un camino sin salida o un ciclo-
     int longitudSolucion; // registra la longitud de la solución encontrada para moderar su aporte de ferormona en su retorno
     double deltaFerormona; // representa cuánta ferormona aporta la hormiga a cada link y se modula con base en length_solución x encuentros
-
+    int ultMemo; // señala la última posición de memoria usada para guardar los vértices visitados por la hormiga 
 };
 #endif /* HORMIGA_H */
 
