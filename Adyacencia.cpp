@@ -14,13 +14,18 @@
 #include "Adyacencia.h"
 
 Adyacencia::Adyacencia() {
+    valoracion = 0.0;
+    cntFerormona = 0.0;
 }
 
 Adyacencia::Adyacencia(double cf, double v){
-    
+    valoracion = v;
+    cntFerormona = cf;
 }
 
 Adyacencia::Adyacencia(const Adyacencia& orig){
+    valoracion = orig.valoracion;
+    cntFerormona = orig.cntFerormona;
 }
 
 Adyacencia::~Adyacencia() {
@@ -28,14 +33,19 @@ Adyacencia::~Adyacencia() {
 
 /* MÉTODOS OBTENEDORES */
 double Adyacencia::obtCntFerormona() {
+    return cntFerormona;
 }
 
 double Adyacencia::obtValoracion() {
+    return valoracion;
+
 }
 
 /* MÉTODOS ASIGNADORES */
 void Adyacencia::asgCntFerormona(double cfn) {
+    cntFerormona = cfn;
 }
 
 void Adyacencia::asgValoracion(double vn) {
+    valoracion = vn;
 }

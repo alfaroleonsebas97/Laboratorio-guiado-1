@@ -73,7 +73,7 @@ private:
     /* MÉTODOS AUXILIARES */
     // REQ: que los idVrt en vrtsPosibles sean índices válidos de vértices en el laberinto que está recorriendo la hormiga.
     // EFE: elimina de vrtsPosibles los idVrt que ya aparecen en la memoria.
-    void filtraVrtsPosibles(int* vrtsPosibles);
+    int filtraVrtsPosibles( int* vrtsPosibles, int vrtDestino, int longitudOriginal );
 
     /* OPERACIONES SOBRE LA MEMORIA DE LA HORMIGA */
     

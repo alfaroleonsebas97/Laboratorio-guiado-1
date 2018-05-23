@@ -18,9 +18,6 @@
 #include <fstream>
 #include <string>
 
-/*
- * Simple C++ Test Suite
- */
 
 void testLaberinto() {
     int cantidadVrts = 50;
@@ -211,16 +208,46 @@ void testCaminoMasCorto() {
 }
 
 void testCaminoEncontrado() {
-    //tres pruebas.distancias: 2,3,4.
-
-    //int idVrtO;
-    //int idVrtD;
-    //int* camino;
-    //Laberinto laberinto;
-    //int result = laberinto.caminoEncontrado(idVrtO, idVrtD, camino);
-    //if (true) {
-    //  std::cout << "%TEST_FAILED% time=0 testname=testCaminoEncontrado (Laberinto) message=error message sample" << std::endl;
-    //}
+    
+    ifstream archivo("laberintop.txt");
+    if (archivo.is_open()) {
+        int idVrtO = 9;
+        int idVrtD = 0;
+        int* camino;
+        Laberinto laberinto(archivo);
+        int result = laberinto.caminoEncontrado(idVrtO, idVrtD, camino);
+        if (result != 2) {
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino más corto del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
+        }
+        int caminoAProbar[] = {9,5,0};
+        for(int i = 0; i < result + 1 ; i++){
+            if ( camino[i] != caminoAProbar[i] ){
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto"<<std::endl;
+            }
+        }
+        delete camino;
+        archivo.close();
+    }
+    
+    ifstream archivo2("laberintop.txt");
+    if (archivo2.is_open()) {
+        int idVrtO = 3;
+        int idVrtD = 1;
+        int* camino2;
+        Laberinto laberinto2(archivo2);
+        int result2 = laberinto2.caminoMasCorto(idVrtO, idVrtD, camino2);
+        if (result2 != 3) {
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino más corto del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
+        }
+        int caminoAProbar[] = {3,8,2,1};
+        for(int i = 0; i < result2 + 1 ; i++){
+            if ( camino2[i] != caminoAProbar[i] ){
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la segunda prueba"<<std::endl;
+            }
+        }
+        delete camino2;
+        archivo2.close();
+    }
 }
 
 void testSumaTotalFerormona() {

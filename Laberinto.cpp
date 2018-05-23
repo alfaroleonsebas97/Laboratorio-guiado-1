@@ -166,8 +166,8 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
     if (xstVrt(idVrtO) && xstVrt(idVrtD)) {
         int distancia[cntVrts];
         bool visto[cntVrts];
-        for (bool& index: visto) {
-            index = false;
+        for (auto& currentElement: visto) {
+           currentElement = false;
         }
         int antecesores[cntVrts];
         for (int i = 0; i < cntVrts; i++) {
@@ -222,8 +222,13 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, int*& camino) const {
     return size;
 }
 
+
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, int*& camino) const {
-    
+    int size = -1;
+    if (xstVrt(idVrtO) && xstVrt(idVrtD)) {
+        //Hormiga hormiga(); //No tiene el include de hormiga, entonces cómo devuelve el camino entcontrado por las hormigas?   
+    }
+    return size;
 }
 
 double Laberinto::sumaTotalFerormona() const {
