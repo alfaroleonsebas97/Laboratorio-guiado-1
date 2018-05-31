@@ -62,9 +62,7 @@ private:
 
     /* MÉTODOS PRIVADOS SUGERIDOS */
     
-    // REQ: memoria.size() > 0.
-    // RET: la posición anterior en la memoria de la hormiga cuando retrocede.
-    int retroceder();
+    void retroceder();
     
     // EFE: retorna -1 en caso de que la hormiga llegue a camino sin salida,
     // y un idVrt válido en caso de que la hormiga pueda continuar.

@@ -25,13 +25,14 @@ void testMover() {
     ifstream archivo("LaberintoPruebaCaminoSimple.txt");
     if (archivo.is_open()) {
         Laberinto lbrt(archivo);
+        Hormiga::cntVrts = lbrt.obtTotVrt();
         Hormiga hormiga;
         hormiga.salir(0);
         for (int i = 0; i < 4; i++) {
             hormiga.mover(lbrt);
         }
         if ( "{0,1,2,3}" == hormiga.obtMemoria() ) {
-            std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga se encicló y no retrocedió" << std::endl;
+            std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga llegó a camino sin salida y no retrocedió" << std::endl;
         }
         archivo.close();
     }
@@ -39,6 +40,7 @@ void testMover() {
     ifstream archivo2("LaberintoPruebaCaminoEnciclado.txt");
     if (archivo2.is_open()) {
         Laberinto lbrt(archivo2);
+        Hormiga::cntVrts = lbrt.obtTotVrt();
         Hormiga hormiga2;
         hormiga2.salir(0);
         for (int i = 0; i < 4; i++) {
@@ -54,12 +56,13 @@ void testMover() {
     if (archivo3.is_open()) {
         Laberinto lbrt(archivo3);
         lbrt.asgIdVrtFinal(3);
+        Hormiga::cntVrts = lbrt.obtTotVrt();
         Hormiga hormiga3;
         hormiga3.salir(0);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             hormiga3.mover(lbrt);
         }
-        if ( hormiga3.obtMemoria() != "{0,1,2}"  ) {
+        if ( hormiga3.obtMemoria() != "{0,1,2,3}" ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga no llegó al vértice final" << std::endl;
         }
         archivo3.close();
@@ -69,6 +72,7 @@ void testMover() {
     if (archivo4.is_open()) {
         Laberinto lbrt(archivo3);
         lbrt.asgIdVrtFinal(3);
+        Hormiga::cntVrts = lbrt.obtTotVrt();
         Hormiga hormiga4;
         hormiga4.salir(0);
         for (int i = 0; i < 6; i++) {

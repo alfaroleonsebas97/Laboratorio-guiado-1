@@ -45,24 +45,19 @@ Hormiga::Hormiga(const Hormiga& orig) {                                     //cr
 }
 
 Hormiga::~Hormiga() {
-    delete[] memoria;                                                       //borra la memoria.
+    //delete[] memoria;                                                       //borra la memoria.
 }
 
 /* OBSERVADORES */
 
 bool Hormiga::salio() {
-    if ((idVrtActual != memoria[0]) && (idVrtActual != -1)) {               //si la hormiga ya salió del vértice inincial.
-        haSalido == true;                                                   //asigna true a haSalido.
-    }
     return haSalido;
 }
 
 // EFE: retorna true si la hormiga ya regresó al vértice inicial después de encontrar el vértice final.
 
 bool Hormiga::regreso() {
-    if ( ( destino == 'I' ) && ( ultMemo = 0 ) ){                           //si regresó al vértice inicial después de encontrar el vértice final
-        haRegresado = true;                                                 //asigna true.
-    }
+    return haRegresado;
 }
 
 char Hormiga::obtDestino() {
@@ -84,37 +79,42 @@ string Hormiga::obtMemoria() {
 /* MÉTODOS MODIFICADORES */
 
 void Hormiga::salir(int idVrtInicial) {
-    idVrtActual == idVrtInicial;                                            //ubica la hormiga en el nodo inicial.
-    pushMemo();                                                             //actualiza ultMemo y agrega el vértice actual a la memoria.
+    idVrtActual = idVrtInicial;                                            //ubica la hormiga en el nodo inicial.
+    pushMemo();
+    haSalido = true;
 }
 
 // REQ: que la hormiga (*this) esté activa.
 // EFE: la hormiga avanza a un vértice adyacente.
 
 void Hormiga::mover(const Laberinto& lbrt) {
-    if ( ( haSalido ) && ( haRegresado == false) ){                         //verifica que la hormiga esté activa y no haya regresado.
-        if (( destino == 'F' ) && ( idVrtActual == lbrt.obtIdVrtFinal() )){ //si llega al vértice final, cambia el destino                                                           //pregtuntar que si ya llegó al final, para empezar a devoverse.
+    
+    for (int i = 0; i < cntVrts; i++) {                                     //asigna -1 en toda la memoria.
+        memoria[i] = -1;
+    }
+    if ( ( haSalido ) && ( !haRegresado) ){                                 //si ya ya salió y no ha regresado.
+        if ( idVrtActual == lbrt.obtIdVrtFinal() ){                         //si ya llegó al vértice final, cambia el destino                                                           //pregtuntar que si ya llegó al final, para empezar a devoverse.
             destino = 'I';
-            longitudSolucion = ultMemo + 1 ;                                //asigna la longitud de la solución.
+            longitudSolucion = ultMemo + 1;                                     //y asigna la longitud de la solución.
+            deltaFerormona = 1.0 / longitudSolucion ;
         }
         if( destino == 'I'){                                                //se mueve un vértice de regreso.
-            //deltaFerormona = longitudSolucion * encuentros;
+            double  f = lbrt.obtDatoAdy(memoria[ultMemo -1],idVrtActual).obtCntFerormona();
+            lbrt.obtDatoAdy(memoria[ultMemo -1],idVrtActual).asgCntFerormona(f+deltaFerormona);
             popMemo();
-            if( ultMemo == 0 ){
-            haRegresado = true;
-                }
+            if( lbrt.obtIdVrtInicial() == idVrtActual ){
+                haRegresado = true;
+             }
         }else{   
             int sgtVrt = seleccionaAdyMasCargada(lbrt);                     //elige el siguiente vértice.
             if( sgtVrt == -1 ){                                             //si el siguiente vértice es inválido,
-                srand (time(NULL));
-                enRetroceso  = (rand ()% ultMemo) + 1;                      //genera un random,
-                for ( int i = 0; i <= enRetroceso; i++ ){                   //y retrocede esa cantidad de veces.
-                    popMemo();
-                }
-                enRetroceso = 0;
+                retroceder();
             }else{                                                          //sino es un vértice válido.                                                        //se mueve un vértice.
-                    idVrtActual = sgtVrt;
-                    pushMemo();
+                if( idVrtActual == lbrt.obtIdVrtFinal()){
+                    longitudSolucion = ultMemo;
+                }    
+                idVrtActual = sgtVrt;
+                pushMemo();
             }
         }
     }
@@ -151,13 +151,13 @@ int Hormiga::filtraVrtsPosibles( int* vrtsPosibles, int vrtDestino, int longitud
     return longitudDeAdy;                                                   //retorna la longitud de los vértices posibles.
 }
 
-
-int Hormiga::retroceder() {
-    int posAnt = -1;                                                        //posición anterior de la memoria.
-    if (ultMemo != -1) {                                                    //si la memoria no está vacía.
-        posAnt = ultMemo - 1;                                               //asigna la posición anterior.
+void Hormiga::retroceder() {
+    //srand (time(NULL));
+    enRetroceso  = 1;//rand ()% ultMemo + 1;                               //genera un random,
+    for ( int i = 0; i <= enRetroceso; i++ ){                              //y retrocede esa cantidad de veces.
+        popMemo();
     }
-    return posAnt;
+    enRetroceso = 0;
 }
 
 int Hormiga::seleccionaAdyMasCargada(const Laberinto& lbrt) {

@@ -13,7 +13,7 @@
 
 #include "Simulador.h"
 
-// EFE: construye un simulador de hormiguero para resolver el laberinto "lbr".
+
 Simulador::Simulador(Laberinto& lbr): laberinto(lbr){
     cantidadHormigas = 0;
     decrFerormona = 0.0;
@@ -27,8 +27,7 @@ Simulador::Simulador(const Simulador& orig):laberinto(orig.laberinto){
 }
 
 Simulador::~Simulador() {
-    delete hormigas;
-    delete &laberinto;
+    delete[] hormigas;
 }
 
 void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double decrFerormona, double probMovimientoAzar) {
@@ -36,15 +35,20 @@ void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double dec
         laberinto.asgIdVrtInicial(idVrtInicial);
         laberinto.asgIdVrtFinal(idVrtFinal);
         cantidadHormigas = cntHrm;
-        decrFerormona = decrFerormona;
-        probMovimientoAzar = probMovimientoAzar;
+        this->decrFerormona = decrFerormona;
+        this->probMovimientoAzar = probMovimientoAzar;
+        Hormiga::cntVrts = laberinto.obtTotVrt();
+        hormigas = new Hormiga[cantidadHormigas];
     }
 }
-    // REQ: p >= 1;
-    // MOD: *this cambiando el estado del simulador y el laberinto.
-    // EFE: ejecuta p pasos de simulación.  
+  
 void Simulador::ejecutar(int p) {
-    if ( p >= 1 ){
-        
+    if (p >= 1){
+        for(int i = 0 ; i < p ;i++){
+            for(int j = 0; j < cantidadHormigas ;j++){
+                hormigas[j].mover(laberinto);
+            }
+            laberinto.actualizarValoracionAdys();
+        }
     }
 }
